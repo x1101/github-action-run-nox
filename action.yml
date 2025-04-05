@@ -1,0 +1,82 @@
+---
+# Copyright (c) Ansible Project
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Run nox
+description: >
+  This action runs nox. It assumes that nox has already been installed, for example using the [wntrblm/nox](https://github.com/wntrblm/nox) action.
+author: "Felix Fontein (@felixfontein)"
+inputs:
+  sessions:
+    description: |-
+      Which nox session(s) to run. If left empty, all sessions marked as default will be run.
+      Can be a space-separated list of sessions.
+
+      Example: `formatters codeqa`.
+    default: ''
+  pythons:
+    description: |-
+      Which version(s) of Python to force. Should be a space-separated list of Python versions.
+
+      Example: `3.11 3.12 3.13`.
+    default: ''
+  working-directory:
+    description: |-
+      The directory in which all commands should be run.
+    default: '.'
+  codecov:
+    description: |-
+      Whether code coverage is collected by the session(s) and should be uploaded.
+      If set to `true`, the [codecov/codecov-action](https://github.com/codecov/codecov-action) action will be used to upload code coverage.
+    default: false
+  codecov-session:
+    description: |-
+      If a special nox session should be run to collect/analyze code coverage. This is done as an extra step.
+    default: ''
+  codecov-name:
+    description: |-
+      If a name should be supplied to codecov. If not specified, will fall back to `sessions`.
+    default: ''
+  codecov-token:
+    description: |-
+      Should be provided with the value of `secrets.CODECOV_TOKEN` if `codecov=true`.
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Set up nox environments
+      run: >-
+        echo "::group::Set up nox environments"
+        ;
+        nox -v
+        ${{ inputs.sessions && '--sessions ' || '' }}${{ inputs.sessions }}
+        ${{ inputs.codecov == 'true' && inputs.codecov-session || '' }}
+        ${{ inputs.pythons && '--force-python ' || '' }}${{ inputs.pythons }}
+        --install-only
+        ;
+        echo "::endgroup::"
+      working-directory: "${{ inputs.working-directory }}"
+    - name: "Run nox -e ${{ matrix.session }}"
+      run: >-
+        nox -v
+        ${{ inputs.sessions && '--sessions ' || '' }}${{ inputs.sessions }}
+        ${{ inputs.pythons && '--force-python ' || '' }}${{ inputs.pythons }}
+        --reuse-existing-virtualenvs
+        --no-install
+      working-directory: "${{ inputs.working-directory }}"
+    - name: Report coverage
+      if: ${{ inputs.codecov == 'true' && inputs.codecov-session }}
+      run: >-
+        nox -v -e ${{ inputs.codecov-session }}
+        --reuse-existing-virtualenvs
+        --no-install
+      working-directory: "${{ inputs.working-directory }}"
+    - name: Upload coverage
+      if: ${{ inputs.codecov == 'true' }}
+      uses: codecov/codecov-action@v5
+      with:
+        name: "${{ inputs.codecov-name || inputs.sessions || '' }}"
+        token: "${{ inputs.codecov-token || '' }}"
+        working-directory: "${{ inputs.working-directory }}"
