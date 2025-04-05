@@ -57,6 +57,7 @@ runs:
         --install-only
         ;
         echo "::endgroup::"
+      shell: bash
       working-directory: "${{ inputs.working-directory }}"
     - name: "Run nox -e ${{ matrix.session }}"
       run: >-
@@ -65,6 +66,7 @@ runs:
         ${{ inputs.pythons && '--force-python ' || '' }}${{ inputs.pythons }}
         --reuse-existing-virtualenvs
         --no-install
+      shell: bash
       working-directory: "${{ inputs.working-directory }}"
     - name: Report coverage
       if: ${{ inputs.codecov == 'true' && inputs.codecov-session }}
@@ -72,6 +74,7 @@ runs:
         nox -v -e ${{ inputs.codecov-session }}
         --reuse-existing-virtualenvs
         --no-install
+      shell: bash
       working-directory: "${{ inputs.working-directory }}"
     - name: Upload coverage
       if: ${{ inputs.codecov == 'true' }}
