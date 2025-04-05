@@ -7,8 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 # GitHub Action for running nox
 
 [![Linting](https://github.com/ansible-community/github-action-run-nox/actions/workflows/linting.yml/badge.svg)](https://github.com/ansible-community/github-action-run-nox/actions/workflows/linting.yml)
-[![Tests](https://github.com/ansible-community/github-action-run-nox/actions/workflows/tests.yml/badge.svg)](https://github.com/ansible-community/github-action-run-nox/actions/workflows/tests.yml)
-[![REUSE](https://github.com/ansible-community/github-action-run-nox/actions/workflows/reuse.yml/badge.svg)](https://github.com/ansible-community/github-action-run-nox/actions/workflows/reuse.yml)
+[![REUSE status](https://api.reuse.software/badge/github.com/ansible-community/github-action-run-nox)](https://api.reuse.software/info/github.com/ansible-community/github-action-run-nox)
 
 A composite GitHub Action that allows to build an Ansible collection artifact in GitHub Actions CI/CD workflows.
 
