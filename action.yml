@@ -15,7 +15,7 @@ inputs:
 
       Example: `formatters codeqa`.
     default: ''
-  pythons:
+  force-pythons:
     description: |-
       Which version(s) of Python to force. Should be a space-separated list of Python versions.
 
@@ -53,7 +53,7 @@ runs:
         nox -v
         ${{ inputs.sessions && '--sessions ' || '' }}${{ inputs.sessions }}
         ${{ inputs.codecov == 'true' && inputs.codecov-session || '' }}
-        ${{ inputs.pythons && '--force-python ' || '' }}${{ inputs.pythons }}
+        ${{ inputs.force-pythons && '--force-python ' || '' }}${{ inputs.force-pythons }}
         --install-only
         ;
         echo "::endgroup::"
@@ -63,7 +63,7 @@ runs:
       run: >-
         nox -v
         ${{ inputs.sessions && '--sessions ' || '' }}${{ inputs.sessions }}
-        ${{ inputs.pythons && '--force-python ' || '' }}${{ inputs.pythons }}
+        ${{ inputs.force-pythons && '--force-python ' || '' }}${{ inputs.force-pythons }}
         --reuse-existing-virtualenvs
         --no-install
       shell: bash

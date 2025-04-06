@@ -32,7 +32,7 @@ To use the action, add the following step to your workflow file (for example `.g
   uses: ansible-community/github-action-run-nox@main
   with:
     sessions: lint
-    pythons: 3.13
+    force-pythons: 3.13
     working-directory: my-code
 ```
 
@@ -60,7 +60,7 @@ The follow options can be provided to this GitHub Action.
   </tr>
   <tr>
     <td>
-      <code>pythons</code>
+      <code>force-pythons</code>
       <br>
       (default:&nbsp;<code>""</code>)
     </td>
