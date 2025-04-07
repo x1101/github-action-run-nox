@@ -9,16 +9,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
 [![Linting](https://github.com/ansible-community/github-action-run-nox/actions/workflows/linting.yml/badge.svg)](https://github.com/ansible-community/github-action-run-nox/actions/workflows/linting.yml)
 [![REUSE status](https://api.reuse.software/badge/github.com/ansible-community/github-action-run-nox)](https://api.reuse.software/info/github.com/ansible-community/github-action-run-nox)
 
-A composite GitHub Action that allows to build an Ansible collection artifact in GitHub Actions CI/CD workflows.
+A composite GitHub Action that runs [nox](https://nox.thea.codes/). It assumes nox has already been installed, for example using the [wntrblm/nox](https://github.com/wntrblm/nox/blob/main/action.yml) GitHub Action.
 
 This action is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
 ## Usage
 
-To use the action, add the following step to your workflow file (for example `.github/workflows/nox.yml`):
+To use the action, add the following step to your workflow file (for example `.github/workflows/nox.yml`) with the following steps in a job:
 
 ```yaml
-- name: Check out your collection repository
+- name: Check out your repository
   uses: actions/checkout@v4
   with:
     working-directory: my-code
@@ -32,7 +32,7 @@ To use the action, add the following step to your workflow file (for example `.g
   uses: ansible-community/github-action-run-nox@main
   with:
     sessions: lint
-    force-pythons: 3.13
+    force-pythons: 3.11 3.12 3.13
     working-directory: my-code
 ```
 
