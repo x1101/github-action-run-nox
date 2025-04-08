@@ -29,12 +29,18 @@ To use the action, add the following step to your workflow file (for example `.g
     python-versions: "3.11, 3.12, 3.13"
 
 - name: Lint
-  uses: ansible-community/github-action-run-nox@main
+  uses: ansible-community/github-action-run-nox@v1
   with:
     sessions: lint
     force-pythons: 3.11 3.12 3.13
     working-directory: my-code
 ```
+
+## Versioning
+
+The `main` branch contains the latest development version.
+The `v1` branch contains a stable version that should not get breaking changes.
+For the time being, `v1` is updated to the content of `main` after some testing.
 
 ## Options
 
