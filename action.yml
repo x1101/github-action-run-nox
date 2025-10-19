@@ -19,7 +19,7 @@ inputs:
     description: |-
       Which version(s) of Python to force. Should be a space-separated list of Python versions.
 
-      Example: `3.11 3.12 3.13`.
+      Example: `3.11 3.12 3.13 3.14`.
     default: ''
   working-directory:
     description: |-
